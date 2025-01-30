@@ -15,18 +15,14 @@ conda activate venv/
 git config --global user.name
 git config --global user.email "soukaryaraha@gmail.com"
 ### Steps
-### Added
 git init
 git add requirement.txt  
 git status
-### To push all the files in the github
 git add .
-### Now push into the staging environment from 
-git commit -m "This commit includes requirement.txt and readme file"
-
-### Git Push
-
-
-
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin <your-repo-url>
+git push -u origin main
+### Install Postman
 
 
