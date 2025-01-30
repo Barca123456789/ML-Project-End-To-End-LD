@@ -25,5 +25,8 @@ git branch -M main
 git remote add origin <your-repo-url>
 git push -u origin main
 ### Install Postman
+Checking for API backend
+###
+Make Web application for Liver Disease prediction
 
 
