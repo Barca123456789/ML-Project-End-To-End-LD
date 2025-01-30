@@ -1,3 +1,107 @@
-<h1>
-    Hello World
-</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liver Disease Prediction</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2 class="my-4">Liver Disease Prediction</h2>
+        <form id="predictionForm">
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" class="form-control" id="age" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select class="form-control" id="gender" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="total_bilirubin">Total Bilirubin:</label>
+                <input type="number" step="0.01" class="form-control" id="total_bilirubin" required>
+            </div>
+            <div class="form-group">
+                <label for="direct_bilirubin">Direct Bilirubin:</label>
+                <input type="number" step="0.01" class="form-control" id="direct_bilirubin" required>
+            </div>
+            <div class="form-group">
+                <label for="alkaline_phosphatase">Alkaline Phosphatase:</label>
+                <input type="number" class="form-control" id="alkaline_phosphatase" required>
+            </div>
+            <div class="form-group">
+                <label for="alanine_aminotransferase">Alanine Aminotransferase:</label>
+                <input type="number" class="form-control" id="alanine_aminotransferase" required>
+            </div>
+            <div class="form-group">
+                <label for="aspartate_aminotransferase">Aspartate Aminotransferase:</label>
+                <input type="number" class="form-control" id="aspartate_aminotransferase" required>
+            </div>
+            <div class="form-group">
+                <label for="total_proteins">Total Proteins:</label>
+                <input type="number" step="0.01" class="form-control" id="total_proteins" required>
+            </div>
+            <div class="form-group">
+                <label for="albumin">Albumin:</label>
+                <input type="number" step="0.01" class="form-control" id="albumin" required>
+            </div>
+            <div class="form-group">
+                <label for="albumin_and_globulin_ratio">Albumin and Globulin Ratio:</label>
+                <input type="number" step="0.01" class="form-control" id="albumin_and_globulin_ratio" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Predict</button>
+        </form>
+        <h3 class="my-4" id="predictionResult"></h3>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#predictionForm').on('submit', function (e) {
+                e.preventDefault();
+                
+                // Collect form data
+                var data = {
+                    data: {
+                        "Age": $('#age').val(),
+                        "Gender": $('#gender').val(),
+                        "Total_Bilirubin": $('#total_bilirubin').val(),
+                        "Direct_Bilirubin": $('#direct_bilirubin').val(),
+                        "Alkaline_Phosphotase": $('#alkaline_phosphatase').val(),
+                        "Alamine_Aminotransferase": $('#alanine_aminotransferase').val(),
+                        "Aspartate_Aminotransferase": $('#aspartate_aminotransferase').val(),
+                        "Total_Protiens": $('#total_proteins').val(),
+                        "Albumin": $('#albumin').val(),
+                        "Albumin_and_Globulin_Ratio": $('#albumin_and_globulin_ratio').val()
+                    }
+                };
+
+                // Send the data to the Flask API
+                $.ajax({
+                    url: '/predict_api',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function(response) {
+                        // Display prediction result for all models
+                        let resultText = "<strong>Prediction Results:</strong><br>";
+                        for (const model in response) {
+                            resultText += model.toUpperCase() + ": " + response[model] + "<br>";
+                        }
+                        $('#predictionResult').html(resultText);
+                    },
+                    error: function(error) {
+                        $('#predictionResult').text('Error: ' + error.responseJSON.error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+

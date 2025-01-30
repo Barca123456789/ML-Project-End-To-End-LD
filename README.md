@@ -19,6 +19,7 @@ git init
 git add requirement.txt  
 git status
 git add .
+git status
 git commit -m "Initial commit"
 git branch -M main
 git remote add origin <your-repo-url>
