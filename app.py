@@ -72,13 +72,11 @@ def predict_api():
             float(normalized_data["Albumin_and_Globulin_Ratio"])
         ]
 
-        # Process gender (1 for Male, 0 for Female)
+        # Process gender (1 for Female, 0 for Male)
         if "Gender" in normalized_data:
             gender = normalized_data["Gender"]
             gender_female = 1 if gender == "Female" else 0
-            gender_male = 1 if gender == "Male" else 0
-            features.append(gender_female)
-            features.append(gender_male)
+            features.append(gender_female)  # Only append one gender feature
         else:
             return jsonify({"error": "Gender data missing."}), 400
 
@@ -104,3 +102,4 @@ def predict_api():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
