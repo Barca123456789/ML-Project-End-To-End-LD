@@ -6,15 +6,21 @@ app = Flask(__name__)
 
 # Load the models
 models = {}
-model_names = ['logreg', 'knn', 'svm', 'rf', 'nb']
+model_names = ['logreg', 'knn', 'svm', 'rf', 'nb']  # Make sure you have these pickle files
 
 for model_name in model_names:
-    with open(f'{model_name}_model.pkl', 'rb') as f:
-        models[model_name] = pickle.load(f)
+    try:
+        with open(f'{model_name}_model.pkl', 'rb') as f:
+            models[model_name] = pickle.load(f)
+    except Exception as e:
+        print(f"Error loading {model_name}_model.pkl: {e}")
 
 # Load the scaler
-with open('scaler.pkl', 'rb') as f:
-    scaler = pickle.load(f)
+try:
+    with open('scaler.pkl', 'rb') as f:
+        scaler = pickle.load(f)
+except Exception as e:
+    print(f"Error loading scaler.pkl: {e}")
 
 # Define Home Route
 @app.route('/')
@@ -104,4 +110,5 @@ def predict_api():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
